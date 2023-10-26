@@ -7,7 +7,7 @@ while (true)
 
     string userInput = Console.ReadLine();
 
-    if (int.TryParse(userInput, out int number))
+    if (ulong.TryParse(userInput, out ulong number))
     {
         var interpreter = new NumberInterpreter(number);
         interpreter.ComputeNumber();

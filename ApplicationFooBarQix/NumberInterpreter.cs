@@ -5,9 +5,9 @@ namespace ApplicationFooBarQix;
 
 public class NumberInterpreter : INumberInterpreter
 {
-    private int InputNumber { get; set; }
+    private ulong InputNumber { get; set; }
     private string OutputExpression { get; set; }
-    public NumberInterpreter(int number)
+    public NumberInterpreter(ulong number)
     {
         InputNumber = number;
         OutputExpression = string.Empty;
@@ -38,16 +38,16 @@ public class NumberInterpreter : INumberInterpreter
         return OutputExpression;
     }
 
-    private static string GetDivisibilityByEnum(KeyValuePair<int, string> keyValuePair, int number)
+    private static string GetDivisibilityByEnum(KeyValuePair<int, string> keyValuePair, ulong number)
     {
-        if (number % keyValuePair.Key == 0)
+        if (number % (ulong)keyValuePair.Key == 0)
         {
             return keyValuePair.Value;
         }
         return string.Empty;
     }
 
-    private static string GetContainedChar(int number)
+    private static string GetContainedChar(ulong number)
     {
         var rslt = new StringBuilder();
         foreach (char c in number.ToString())
