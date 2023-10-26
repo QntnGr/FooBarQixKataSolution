@@ -7,29 +7,39 @@ public class NumberInterpreter : INumberInterpreter
 {
     private ulong InputNumber { get; set; }
     private string OutputExpression { get; set; }
-    public NumberInterpreter(ulong number)
+    public NumberInterpreter(string number)
     {
-        InputNumber = number;
-        OutputExpression = string.Empty;
+        if (ulong.TryParse(number, out ulong numberLong))
+        { 
+            InputNumber = numberLong;
+            OutputExpression = string.Empty;
+        }
+        else
+        {
+            InputNumber = 0;
+            OutputExpression = "Ce n'est pas un nombre valide.";
+        }
     }
 
     public void ComputeNumber()
     {
         var rslt = new StringBuilder();
+        if(InputNumber != 0)
+        {
+            foreach (var expression in Expressions.ExpressionDictionary)
+            {
+                rslt.Append(GetDivisibilityByEnum(expression, InputNumber));
+            }
+            rslt.Append(GetContainedChar(InputNumber));
 
-        foreach (var expression in Expressions.ExpressionDictionary)
-        {
-            rslt.Append(GetDivisibilityByEnum(expression, InputNumber));
-        }
-        rslt.Append(GetContainedChar(InputNumber));
-
-        if (rslt.Length == 0 || rslt.ToString().Distinct().Count() == 1)
-        {
-            OutputExpression = InputNumber.ToString().Replace("0", "*");
-        }
-        else
-        {
-            OutputExpression = rslt.ToString();
+            if (rslt.Length == 0 || rslt.ToString().Distinct().Count() == 1)
+            {
+                OutputExpression = InputNumber.ToString().Replace("0", "*");
+            }
+            else
+            {
+                OutputExpression = rslt.ToString();
+            }
         }
     }
 
