@@ -7,6 +7,7 @@ public class NumberInterpreter : INumberInterpreter
 {
     private ulong InputNumber { get; set; }
     private string OutputExpression { get; set; }
+
     public NumberInterpreter(string number)
     {
         if (ulong.TryParse(number, out ulong numberLong))
@@ -28,7 +29,10 @@ public class NumberInterpreter : INumberInterpreter
         {
             foreach (var expression in Expressions.ExpressionDictionary)
             {
-                rslt.Append(GetDivisibilityByEnum(expression, InputNumber));
+                if(expression.Key != '0')
+                {
+                    rslt.Append(GetDivisibility(expression, InputNumber));
+                }
             }
             rslt.Append(GetContainedChar(InputNumber));
 
@@ -48,13 +52,10 @@ public class NumberInterpreter : INumberInterpreter
         return OutputExpression;
     }
 
-    private static string GetDivisibilityByEnum(KeyValuePair<int, string> keyValuePair, ulong number)
+    private string GetDivisibility(KeyValuePair<char, string> keyValuePair, ulong number)
     {
-        if (number % (ulong)keyValuePair.Key == 0)
-        {
-            return keyValuePair.Value;
-        }
-        return string.Empty;
+        ulong.TryParse(keyValuePair.Key.ToString(), out ulong keyValue);
+        return number % keyValue == 0 ? keyValuePair.Value : string.Empty;
     }
 
     private static string GetContainedChar(ulong number)
@@ -62,16 +63,9 @@ public class NumberInterpreter : INumberInterpreter
         var rslt = new StringBuilder();
         foreach (char c in number.ToString())
         {
-            foreach (var keyValuePair in Expressions.ExpressionDictionary)
+            if(Expressions.ExpressionDictionary.TryGetValue(c, out string value))
             {
-                if (c.ToString() == keyValuePair.Key.ToString())
-                {
-                    rslt.Append(keyValuePair.Value);
-                }
-            }
-            if (c == '0')
-            {
-                rslt.Append('*');
+                rslt.Append(value);
             }
         }
 

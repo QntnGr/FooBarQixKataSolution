@@ -3,10 +3,11 @@ namespace ApplicationFooBarQix;
 
 internal static class Expressions
 {
-    public static Dictionary<int, string> ExpressionDictionary = new Dictionary<int, string>
+    internal static Dictionary<char, string> ExpressionDictionary = new Dictionary<char, string>
     {
-        {  3, "Foo" },
-        {  5, "Bar" },
-        {  7, "Qix" }
+        {  '3', "Foo" },
+        {  '5', "Bar" },
+        {  '7', "Qix" },
+        {  '0', "*" }
     };
 }
